@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
     s.GetIndex();
     s.NumberOfAvailableJS();
     s.setKind(1,4);
-    MainWindow w;
-    w.show();
+//    MainWindow w;
+//    w.show();
 
     return a.exec();
 }
