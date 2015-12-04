@@ -8,10 +8,11 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     joysticksdl s(0);
-    s.ShowJoystickData();
+    //s.ShowJoystickData();
+    //s.ShowAvailableJoysticks();
     s.setKind(1,4);
-//    MainWindow w;
-//    w.show();
+    //    MainWindow w;
+    //    w.show();
 
 
     return a.exec();

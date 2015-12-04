@@ -12,11 +12,11 @@ joysticksdl::joysticksdl(unsigned int joystickNumber, QObject *parent) : QObject
     SDL_JoystickEventState(SDL_ENABLE);
 
     qDebug()<<  "joysticks found " << SDL_NumJoysticks();
-    ShowAvailableJoysticks();
+    //ShowAvailableJoysticks();
 
     if(SDL_NumJoysticks()>0) {
         joy = SDL_JoystickOpen(joystickNumber);
-        qDebug()<<"Joystick of index "<<joystickNumber<< "is opened";
+        qDebug()<<"Connecting ... ";
     }else {  qDebug()<<"Couldn't open Joystick";}
 
 
@@ -190,7 +190,7 @@ void joysticksdl::checkConnectivity()
     if(SDL_JoystickOpened(joystickNumber) && !isConnected){
         isConnected = true;
         //emit connected();
-        qDebug()<<"connected";
+        qDebug()<<"Joystick of index "<<joystickNumber<< "is connected";
     }
     if(!SDL_JoystickOpened(joystickNumber) && isConnected){
         isConnected = false;
