@@ -44,119 +44,141 @@ void joysticksdl::readJoystickState()
     while(SDL_PollEvent(&event)){
         switch(event.type)
         {
-
-        /*/////////////////// Button Pressed ////////////////////////////////////*/
         case SDL_JOYBUTTONDOWN:
-            for(int i=0;i<SDL_JoystickNumButtons(joy);i++)
-            {
-                if ( event.jbutton.button == i )
-                {
-                    if (checkAutoRepeat->isActive())
-                        checkAutoRepeat->stop();
-
-                    if (autoRepeat->isActive())
-                        autoRepeat->stop();
-
-                    if (getKind(i) == AUTO_REPEAT) {
-                        checkAutoRepeat->start(100);
-
-                        currentButton = i;
-                    }
-
-                    qDebug()<<"Button pressed" <<i;
-                }
-            }
+            ButtonDown(event);
             break;
-            /*////////////////// Button Released ///////////////////////////////////*/
+
         case SDL_JOYBUTTONUP:
-            for(int i=0;i<SDL_JoystickNumButtons(joy);i++)
-            {
-                if ( event.jbutton.button == i )
-                {
-                    if (checkAutoRepeat->isActive())
-                        checkAutoRepeat->stop();
-
-                    if (autoRepeat->isActive())
-                        autoRepeat->stop();
-
-                    qDebug()<<"released" <<i;
-                }
-            }
+            ButtonUp(event);
             break;
 
-            /*////////////////// Axis changed ///////////////////////////////////*/
         case SDL_JOYAXISMOTION:
-            if ( ( event.jaxis.value < -3200 ) || (event.jaxis.value > 3200 ) )
-            {
-                if( event.jaxis.axis == 0) /*0 for Left or Right*/
-                {
-                    if(event.jaxis.value < 0)
-                        qDebug()<<"left" << event.jaxis.value;
-                    else if(event.jaxis.value > 0)
-                        qDebug()<<"Right" << event.jaxis.value;
-                }
-
-                if( event.jaxis.axis == 1) /*1 for Up and Down*/
-                {
-                    if(event.jaxis.value < 0)
-                        qDebug()<<"Up" << event.jaxis.value;
-                    else if(event.jaxis.value > 0)
-                        qDebug()<<"Down" << event.jaxis.value;
-                }
-            }
+            AxisMotion(event);
             break;
-            /*////////////////// Joyball motion ///////////////////////////////////*/
+
         case SDL_JOYBALLMOTION:
-            if( event.jball.ball == 0 )
-            {
-                qDebug()<<"Ball x"<<event.jball.xrel <<"Ball y"<<event.jball.yrel;
-            }
+            BallMotion(event);
             break;
-            /*////////////////// Hat motion ///////////////////////////////////*/
-        case SDL_JOYHATMOTION:  /* Handle Hat Motion */
-            if ( event.jhat.value & SDL_HAT_UP )
-            {
-                qDebug()<<"Hat Up" << event.jhat.value;
-            }
 
-            if ( event.jhat.value & SDL_HAT_DOWN )
-            {
-                qDebug()<<"Hat Down" << event.jhat.value;
-            }
-            if ( event.jhat.value & SDL_HAT_LEFT )
-            {
-                qDebug()<<"Hat Left" << event.jhat.value;
-            }
-            if ( event.jhat.value & SDL_HAT_RIGHT )
-            {
-                qDebug()<<"Hat Right" << event.jhat.value;
-            }
-            if ( event.jhat.value & SDL_HAT_CENTERED )
-            {
-                qDebug()<<"Hat Centered" << event.jhat.value;
-            }
-            if ( event.jhat.value & SDL_HAT_LEFTDOWN )
-            {
-                qDebug()<<"Hat LeftDown" << event.jhat.value;
-            }
-            if ( event.jhat.value & SDL_HAT_LEFTUP )
-            {
-                qDebug()<<"Hat LeftUp" << event.jhat.value;
-            }
-            if ( event.jhat.value & SDL_HAT_RIGHTDOWN )
-            {
-                qDebug()<<"Hat RightDown" << event.jhat.value;
-            }
-            if ( event.jhat.value & SDL_HAT_RIGHTUP )
-            {
-                qDebug()<<"Hat RightUp" << event.jhat.value;
-            }
+        case SDL_JOYHATMOTION:
+            HatMotion(event);
             break;
         }
-
     }
 }
 
+
+void joysticksdl::ButtonDown(SDL_Event event)
+{
+    for(int i=0;i<SDL_JoystickNumButtons(joy);i++)
+    {
+        if ( event.jbutton.button == i )
+        {
+            if (checkAutoRepeat->isActive())
+                checkAutoRepeat->stop();
+
+            if (autoRepeat->isActive())
+                autoRepeat->stop();
+
+            if (getKind(i) == AUTO_REPEAT) {
+                checkAutoRepeat->start(100);
+
+                currentButton = i;
+            }
+
+            qDebug()<<"Button pressed" <<i;
+        }
+    }
+}
+
+
+void joysticksdl::ButtonUp(SDL_Event event)
+{
+    for(int i=0;i<SDL_JoystickNumButtons(joy);i++)
+    {
+        if ( event.jbutton.button == i )
+        {
+            if (checkAutoRepeat->isActive())
+                checkAutoRepeat->stop();
+
+            if (autoRepeat->isActive())
+                autoRepeat->stop();
+
+            qDebug()<<"released" <<i;
+        }
+    }
+}
+
+void joysticksdl::AxisMotion(SDL_Event event)
+{
+    if ( ( event.jaxis.value < -3200 ) || (event.jaxis.value > 3200 ) )
+    {
+        if( event.jaxis.axis == 0) /*0 for Left or Right*/
+        {
+            if(event.jaxis.value < 0)
+                qDebug()<<"left" << event.jaxis.value;
+            else if(event.jaxis.value > 0)
+                qDebug()<<"Right" << event.jaxis.value;
+        }
+
+        if( event.jaxis.axis == 1) /*1 for Up and Down*/
+        {
+            if(event.jaxis.value < 0)
+                qDebug()<<"Up" << event.jaxis.value;
+            else if(event.jaxis.value > 0)
+                qDebug()<<"Down" << event.jaxis.value;
+        }
+    }
+}
+
+void joysticksdl::BallMotion(SDL_Event event)
+{
+    if( event.jball.ball == 0 )
+    {
+        qDebug()<<"Ball x"<<event.jball.xrel <<"Ball y"<<event.jball.yrel;
+    }
+}
+
+void joysticksdl::HatMotion(SDL_Event event)
+{
+    if ( event.jhat.value & SDL_HAT_UP )
+    {
+        qDebug()<<"Hat Up" << event.jhat.value;
+    }
+
+    if ( event.jhat.value & SDL_HAT_DOWN )
+    {
+        qDebug()<<"Hat Down" << event.jhat.value;
+    }
+    if ( event.jhat.value & SDL_HAT_LEFT )
+    {
+        qDebug()<<"Hat Left" << event.jhat.value;
+    }
+    if ( event.jhat.value & SDL_HAT_RIGHT )
+    {
+        qDebug()<<"Hat Right" << event.jhat.value;
+    }
+    if ( event.jhat.value & SDL_HAT_CENTERED )
+    {
+        qDebug()<<"Hat Centered" << event.jhat.value;
+    }
+    if ( event.jhat.value & SDL_HAT_LEFTDOWN )
+    {
+        qDebug()<<"Hat LeftDown" << event.jhat.value;
+    }
+    if ( event.jhat.value & SDL_HAT_LEFTUP )
+    {
+        qDebug()<<"Hat LeftUp" << event.jhat.value;
+    }
+    if ( event.jhat.value & SDL_HAT_RIGHTDOWN )
+    {
+        qDebug()<<"Hat RightDown" << event.jhat.value;
+    }
+    if ( event.jhat.value & SDL_HAT_RIGHTUP )
+    {
+        qDebug()<<"Hat RightUp" << event.jhat.value;
+    }
+}
 
 void joysticksdl::checkConnectivity()
 {

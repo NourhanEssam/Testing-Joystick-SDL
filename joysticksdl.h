@@ -41,15 +41,21 @@ private:
     float povX, povY;
     int currentButton;
 
-//    bool isButtonPressed(int id);
-//signals:
-//    void connected();
+    void ButtonDown(SDL_Event event);
+    void ButtonUp(SDL_Event event);
+    void AxisMotion(SDL_Event event);
+    void BallMotion(SDL_Event event);
+    void HatMotion(SDL_Event event);
 
-//    void disconnected();
+    //    bool isButtonPressed(int id);
+    //signals:
+    //    void connected();
 
-//    void buttonPressed(int id);
+    //    void disconnected();
 
-//    void buttonReleased(int id);
+    //    void buttonPressed(int id);
+
+    //    void buttonReleased(int id);
 
 private slots:
     void checkConnectivity();
