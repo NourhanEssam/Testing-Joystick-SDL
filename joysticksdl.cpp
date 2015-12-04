@@ -11,9 +11,12 @@ joysticksdl::joysticksdl(unsigned int joystickNumber, QObject *parent) : QObject
     SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK );
     SDL_JoystickEventState(SDL_ENABLE);
 
+    qDebug()<<  "joysticks found " << SDL_NumJoysticks();
+    ShowAvailableJoysticks();
+
     if(SDL_NumJoysticks()>0) {
         joy = SDL_JoystickOpen(joystickNumber);
-        qDebug()<<"Joystick opened";
+        qDebug()<<"Joystick of index "<<joystickNumber<< "is opened";
     }else {  qDebug()<<"Couldn't open Joystick";}
 
 
@@ -230,3 +233,20 @@ void joysticksdl::setKind(int id, int kind)
 
 int joysticksdl::getKind(int id)
 {return buttonKinds[id];}
+
+void joysticksdl::ShowJoystickData()
+{
+    qDebug()<< "Index is " << SDL_JoystickIndex(joy);
+    qDebug()<<"Name is" <<SDL_JoystickName(joystickNumber);
+    qDebug()<< "Number of buttons is " << SDL_JoystickNumButtons(joy);
+    qDebug()<< "Number of Axes is " << SDL_JoystickNumAxes(joy);
+    qDebug()<< "Number of Hats is " << SDL_JoystickNumHats(joy);
+    qDebug()<< "Number of Balls is " << SDL_JoystickNumBalls(joy);
+}
+
+void joysticksdl::ShowAvailableJoysticks()
+{
+    for(int i=0; i < SDL_NumJoysticks(); i++ )
+    { qDebug()<< "Joystick of Index "<<i<<"Has name: " << SDL_JoystickName(i); }
+}
+

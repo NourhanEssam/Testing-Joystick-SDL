@@ -26,6 +26,8 @@ public:
     void GetNumberOFBalls();
     void GetIndex();
     void NumberOfAvailableJS();
+    void ShowJoystickData();
+    void ShowAvailableJoysticks();
 
     void setKind(int id, int kind);
     int getKind(int id);

@@ -8,12 +8,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     joysticksdl s(0);
-    s.GetNumberOFButtons();
-    s.GetNumberOFAxes();
-    s.GetNumberOFBalls();
-    s.GetNumberOFHats();
-    s.GetIndex();
-    s.NumberOfAvailableJS();
+    s.ShowJoystickData();
     s.setKind(1,4);
 //    MainWindow w;
 //    w.show();
