@@ -9,7 +9,7 @@
 class joysticksdl : public QObject {
     Q_OBJECT
 public:
-    joysticksdl(unsigned int joystickNumber, QObject *parent = 0);
+    explicit joysticksdl(unsigned int joystickNumber, QObject *parent = 0);
     ~joysticksdl();
 
     static enum KIND {
